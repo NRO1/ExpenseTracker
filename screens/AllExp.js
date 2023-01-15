@@ -1,8 +1,9 @@
-import { Text, StyleSheet } from 'react-native';
+import {  StyleSheet } from 'react-native';
+import ExpensesOutput from '../components/Output/ExpensesOutput';
 
 function AllExp() {
     return (
-        <Text>AlleExp</Text>
+        <ExpensesOutput expPeriod="Total" />
     )
 }
 
