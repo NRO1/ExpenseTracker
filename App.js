@@ -7,18 +7,23 @@ import AllExp from "./screens/AllExp";
 import RecentExp from "./screens/RecentExp";
 import {Colors} from './colors/style';
 import { Ionicons } from '@expo/vector-icons';
+import IconButton from "./components/UI/IconButton";
+import ExpContextProvider from './store/exp-context';
 
 const Stack = createStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function ExpensesOverview() {
   return (
-    <BottomTabs.Navigator screenOptions={{
+    <BottomTabs.Navigator screenOptions={ ({ navigation }) => ({
       headerStyle: { backgroundColor: Colors.primary500},
       headerTintColor: 'white',
       tabBarStyle: { backgroundColor: Colors.primary500},
-      tabBarActiveTintColor: Colors.accent500
-    }}>
+      tabBarActiveTintColor: Colors.accent500,
+      headerRight: ({tintColor}) => (<IconButton icon="add" size={30} color={tintColor} onPress={() => {
+        navigation.navigate('ManageExp');
+      }} />)
+    })}>
       <BottomTabs.Screen name="RecentExp" component={RecentExp} options={{
         title: 'Recent Expenses',
         tabBarLabel: 'Recent',
@@ -41,14 +46,21 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
+      <ExpContextProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerStyle: { backgroundColor: Colors.primary500},
+          headerTintColor: 'white'
+          }}>
           <Stack.Screen name="ExpensesOverview" component={ExpensesOverview} options={{
             headerShown: false
           }} />
-          <Stack.Screen name="ManageExp" component={ManageExp} />
+          <Stack.Screen name="ManageExp" component={ManageExp} options={{
+            presentation: 'modal'
+          }}/>
         </Stack.Navigator>
       </NavigationContainer>
+      </ExpContextProvider>
     </>
   );
 }
