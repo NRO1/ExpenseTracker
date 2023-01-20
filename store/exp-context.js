@@ -77,7 +77,7 @@ function expReducer(state, action) {
       const updatedItem = { ...updatableExp, ...action.payload.data };
       const updatedExp = [...state];
       updatedExp[updateIndex] = updatedItem;
-      return updatableExp;
+      return updatedExp;
     case "DELETE":
         return state.filter((exp) => exp.id !== action.payload);
     default:

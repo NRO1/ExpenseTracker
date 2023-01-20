@@ -5,6 +5,7 @@ import { Colors } from "../colors/style";
 import CustomButton from "../components/UI/CustomButton";
 import { ExpensesContext } from "../store/exp-context";
 import { useContext } from "react";
+import ExpenseForm from "../components/Forms/ExpenseForm";
 
 function ManageExp({ route, navigation }) {
   const expenseId = route.params?.expenseId;
@@ -47,6 +48,7 @@ function ManageExp({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttons}>
         <CustomButton mode="flat" onPress={cancelHandler} style={styles.button}>
           Cancel
