@@ -2,7 +2,6 @@ import { View, StyleSheet } from "react-native";
 import { useLayoutEffect } from "react";
 import IconButton from "../components/UI/IconButton";
 import { Colors } from "../colors/style";
-import CustomButton from "../components/UI/CustomButton";
 import { ExpensesContext } from "../store/exp-context";
 import { useContext } from "react";
 import ExpenseForm from "../components/Forms/ExpenseForm";
@@ -27,36 +26,20 @@ function ManageExp({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmHandler() {
+  function confirmHandler(expenseData) {
     if (isEditing) {
       expCtx.updateExpense(
-        expenseId,
-        {
-        description: "Test!!!",
-        amount: 99.99,
-        date: new Date("2023-01-14"),
-      });
+        expenseId,expenseData
+      );
     } else {
-      expCtx.addExpense({
-        description: "Test",
-        amount: 25.25,
-        date: new Date("2023-01-15"),
-      });
+      expCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttons}>
-        <CustomButton mode="flat" onPress={cancelHandler} style={styles.button}>
-          Cancel
-        </CustomButton>
-        <CustomButton onPress={confirmHandler} style={styles.button}>
-          {isEditing ? "Update" : "add"}
-        </CustomButton>
-      </View>
+      <ExpenseForm onCancel={cancelHandler} submitButtonLabel={isEditing ? 'update' : 'Add'} onSubmit={confirmHandler}/>
       {isEditing && (
         <View style={styles.deleteCont}>
           <IconButton
@@ -85,14 +68,5 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderTopColor: Colors.primary800,
     alignItems: "center",
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
   },
 });
