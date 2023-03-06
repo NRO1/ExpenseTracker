@@ -7,9 +7,13 @@ import { useContext } from "react";
 import ExpenseForm from "../components/Forms/ExpenseForm";
 
 function ManageExp({ route, navigation }) {
+  const expCtx = useContext(ExpensesContext);
   const expenseId = route.params?.expenseId;
   const isEditing = !!expenseId;
-  const expCtx = useContext(ExpensesContext);
+  
+  const selectedExp = expCtx.expenses.find(
+    (exp) => exp.id === expenseId
+  )
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +43,7 @@ function ManageExp({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <ExpenseForm onCancel={cancelHandler} submitButtonLabel={isEditing ? 'update' : 'Add'} onSubmit={confirmHandler}/>
+      <ExpenseForm onCancel={cancelHandler} submitButtonLabel={isEditing ? 'update' : 'Add'} onSubmit={confirmHandler} defaultValues={selectedExp} />
       {isEditing && (
         <View style={styles.deleteCont}>
           <IconButton
